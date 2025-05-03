@@ -1,35 +1,82 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import axios from 'axios';
+import {Container, Nav, Card, ListGroup} from 'react-bootstrap';
+import Navbar from 'react-bootstrap/Navbar';
+import {useNavigate} from "react-router-dom";
+
+axios.defaults.baseURL = 'http://localhost:8000';
 
 function App() {
-  const [count, setCount] = useState(0)
+    const navigate = useNavigate();
+    const categories = [
+    {
+        id: 1,
+        name: 'Fiqh',
+        path: '/fiqh',
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    },
+    {
+        id: 2,
+        name: 'Qiraat and Tajweed',
+        path: '/qiraat-and-tajweed',
+
+    },
+    {
+        id: 3,
+        name: 'Fatawa',
+        path: '/fatawa',
+
+    }
+];
+
+const handleClick = (name: string) => {
+    navigate(`/categories/${name}`);
+}
+
+    return (
+        <div className="App">
+          <Navbar fixed ="top" expand="lg" className="navbar w-100 bg-body-tertiary">
+              <Container className="container-fluid container-fluid d-flex">
+                  <Nav className="nav mx-auto d-flex">
+                    <Nav.Link href="#home" className="navbar-brand">Test1</Nav.Link>
+                    <Nav.Link href="#features" className="navbar-brand">Test2</Nav.Link>
+                    <Nav.Link href="#pricing" className="navbar-brand">Test3</Nav.Link>
+                    <Nav.Link href="#pricing" className="navbar-brand">Test4</Nav.Link>
+                  </Nav>
+              </Container>
+          </Navbar>
+            <div className="background-container">
+                <img src="/public/masjid-nabawi-3341739_1920.jpg"
+                     alt="background image"
+                    className="background-image"
+                />
+                <div className="overlay"></div>
+                <div className="overlay-content">
+                    <h1 className="text">The Gift for the Students</h1>
+                    <p className="text">All of the knowledge in one place</p>
+                    <p id="subtext" className="text">A library for the english speaking students</p>
+                </div>
+            </div>
+
+              <div className="content">
+                  <h2>List of categories</h2>
+                  <div className="categories">
+                      <ListGroup variant="flush">
+                            {categories.map((category) => (
+                                <ListGroup.Item
+                                    key={category.id}
+                                    className="category-item"
+                                    action
+                                    onClick={() => handleClick(category.name)}>
+                                     <span className="category-name">{category.name}</span>
+                                </ListGroup.Item>
+                            ))}
+                      </ListGroup>
+                  </div>
+              </div>
+
+        </div>
+    );
 }
 
 export default App
