@@ -3,7 +3,9 @@ from starlette.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from .user import models as user_models
 from .books import models as book_models
+from .books.router import BookResponse
 from .books import router as book_routers
+
 from .database import engine, get_db
 
 user_models.Base.metadata.create_all(bind=engine)
@@ -23,8 +25,9 @@ app.add_middleware(
 async def root():
     return {"message": "Welcome to the FastAPI backend!"}
 
-@app.get("/api/books/{category_name}", response_model=list[book_models.Book])
+@app.get("/api/books/{category_name}", response_model=list[BookResponse])
 async def get_books_by_category(category_name: str, db: Session = Depends(get_db)):
+    print(category_name)
     category = db.query(book_models.Category).filter_by(name=category_name).first()
     if not category:
         raise HTTPException(status_code=404, detail=f"Category '{category_name}' not found")

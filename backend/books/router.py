@@ -9,4 +9,4 @@ class BookResponse(BaseModel):
     category_name: str
 
     class Config:
-        from_mode = True
+        from_attributes = True

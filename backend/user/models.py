@@ -11,5 +11,3 @@ class User(Base):
     password = Column(String(100))
     first_name = Column(String(50))
     last_name = Column(String(50))
-
-    books = relationship("Book", back_populates="user")
